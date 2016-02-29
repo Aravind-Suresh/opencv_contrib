@@ -231,6 +231,28 @@ static inline void trans( Mat src,
 }
 
 /**
+ * [setMinMaxAngle Sets the given minimum and maximum angles if they are smaller and higher than the current values respectively]
+ * @param currentMinAngle [Current minimum angle]
+ * @param currentMaxAngle [Current maximum angle]
+ * @param minAngle [Given minimum angle to set as current minimum angle, referenced]
+ * @param maxAngle [Given maximum angle to set as current maximum angle, referenced]
+ */
+static inline void setMinMaxAngle( int & currentMinAngle,
+                                   int & currentMaxAngle,
+                                   int minAngle,
+                                   int maxAngle)
+{
+  if (minAngle < currentMinAngle)
+  {
+    currentMinAngle = minAngle;
+  }
+  if (maxAngle > currentMaxAngle)
+  {
+    currentMaxAngle = maxAngle;
+  }
+}
+
+/**
  * [getAngleRange Computes minAngle and maxAngle for given angleRange - AR_x_y]
  * @param angleRange [Given flag for angle range - AR_x_y]
  * @param minAngle   [minAngle, referenced]
@@ -241,41 +263,31 @@ static inline void getAngleRange( int angleRange,
                                   int & minAngle,
                                   int & maxAngle
                                 ) {
-  switch(angleRange) {
-    case AR_1_45:
-      minAngle = 1;
-      maxAngle = 45;
-      break;
-
-    case AR_46_89:
-      minAngle = 46;
-      maxAngle = 89;
-      break;
-
-    case AR_90:
-      minAngle = 90;
-      maxAngle = 90;
-      break;
-
-    case AR_91_135:
-      minAngle = 91;
-      maxAngle = 135;
-      break;
-
-    case AR_136_179:
-      minAngle = 136;
-      maxAngle = 179;
-      break;
-
-    case AR_180:
-      minAngle = 180;
-      maxAngle = 180;
-      break;
-
-    default:
-      minAngle = 1;
-      maxAngle = 180;
-      break;
+  minAngle = 180;
+  maxAngle = 0;
+  if (angleRange & AR_1_45)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 1, 45);
+  }
+  if (angleRange & AR_46_89)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 46, 89);
+  }
+  if (angleRange & AR_90)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 90, 90);
+  }
+  if (angleRange & AR_91_135)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 91, 135);
+  }
+  if (angleRange & AR_136_179)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 136, 179);
+  }
+  if (angleRange & AR_180)
+  {
+    setMinMaxAngle(minAngle, maxAngle, 180, 180);
   }
 }
 
